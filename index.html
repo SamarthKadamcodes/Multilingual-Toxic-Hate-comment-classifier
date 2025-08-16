@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multilingual Toxicity Detection</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/justgage/1.4.0/justgage.min.js"></script>
+    <style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; padding: 20px; }
+    .container { background: white; padding: 20px; border-radius: 10px; width: 80%; margin: auto; }
+    h2 { color: #343a40; }
+    textarea {
+        width: 100%;
+        font-size: 18px; /* Bigger text */
+        padding: 10px;
+    }
+    input[type="submit"] {
+        font-size: 18px; /* Bigger text */
+        padding: 12px 25px; /* More padding for size */
+        background-color: #007bff; /* Blue background */
+        color: white; /* White text */
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+    .gauge-container { display: flex; flex-wrap: wrap; gap: 20px; }
+    .gauge-item { text-align: center; }
+    .gauge { width: 200px; height: 160px; margin-bottom: 10px; }
+    .gauge-label { font-weight: bold; color: #333; }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h2>Multilingual Toxicity Detection</h2>
+        <form method="post">
+            <textarea name="comment" rows="4" placeholder="Type your comment here...">{{ text }}</textarea><br><br>
+            <input type="submit" value="Analyze">
+        </form>
+
+
+
+        {% if result_multi %}
+            <h3>Prediction:</h3>
+            <div class="gauge-container">
+                {% for label in labels %}
+                    <div class="gauge-item">
+                        <div id="gauge-{{ loop.index }}" class="gauge"></div>
+                        <div class="gauge-label">{{ label }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    {% if result_multi %}
+    <script>
+        const labels = {{ labels | tojson }};
+        const scores = {{ result_multi | tojson }};
+
+        labels.forEach((label, idx) => {
+            new JustGage({
+                id: "gauge-" + (idx + 1),
+                value: Math.round((scores[label] || 0) * 100),
+                min: 0,
+                max: 100,
+                label: "%",
+                levelColors: ["#4caf50", "#ffc107", "#f44336"],
+                pointer: true
+            });
+        });
+    </script>
+    {% endif %}
+</body>
+</html>
