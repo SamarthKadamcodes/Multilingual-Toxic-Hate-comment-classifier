@@ -1,7 +1,10 @@
-# Toxic Comment Detection (Logistic Regression)
+Multilingual Toxic Language Detection using BERT
 
-A simple machine learning model built with **Logistic Regression** to classify comments as **toxic** or **non-toxic**.  
-This is the initial version of a larger project that later evolved into a multilingual transformer-based toxicity detection system.
+📌 Overview
+
+This project implements a multilingual toxic language detection system using transformer-based models (BERT / HuggingFace Transformers).
+It evolved from a logistic regression prototype into a deep learning-powered multilingual model, capable of detecting offensive/abusive content across multiple languages.
+
 
 CSV File: https://www.kaggle.com/competitions/jigsaw-multilingual-toxic-comment-classification
 
